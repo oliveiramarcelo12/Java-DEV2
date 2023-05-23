@@ -69,39 +69,30 @@ public class AtividadeFormativa {
       
       while (nSorteado!=nDigitado) {
         cont++;
-         if( nSorteado==nDigitado){
-            System.out.println("Acertou");
-            cont++;
-           
-        }
-       else  if  (nSorteado>nDigitado ) {
+         if( nSorteado>nDigitado){
            
             System.out.println("Tente Novamente");
             System.out.println("Número Sorteado é maior do que Numero Digitado");
-            nDigitado=sc.nextInt();
-            cont++;
             System.out.println("Aperte CTRL+C, a qualquer momento, para parar.");
            
-
-            
+           
         }
-        else if(nSorteado<nDigitado  )  {
-            System.out.println("Tente Novamente");
-            System.out.println(" Número Sorteado é menor do que Numero Digitado ");
-            nDigitado=sc.nextInt();
-         
-            System.out.println("Aperte CTRL+C, a qualquer momento, para parar.");
-            cont++;
-
-
-            
-        }
+       else  if  ( nSorteado<nDigitado) {
+        System.out.println("Tente Novamente");
+        System.out.println(" Número Sorteado é menor do que Numero Digitado ");
+       }
        
-        else{
-            cont++;
-            System.out.println("Você Acertou em"+cont+"tentativas");
+       
 
+        else{
+           
         }
+        System.out.println("Digite outro Número");
+        nDigitado=sc.nextInt();
+        cont++;
+
+        System.out.println("Você Acertou");
+        System.out.println("Em"+cont+"tentativas");
   
 
 
@@ -110,15 +101,40 @@ public class AtividadeFormativa {
       
     }
     public void exercicio3() {
-        int tamanhoVetor=rd.nextInt(1000);
+        int tamanhoVetor=rd.nextInt(900)+100;
         int vetor[] = new int [tamanhoVetor];
-        for (int i = 0; i < 0; i++) {
-            if (vetor[1]%2==0) {
+        int contImparNoPar=0;
+        int contParNoImpar=0;
+        for (int i = 0; i < vetor.length; i++) {
+            vetor[i]=rd.nextInt(100)+1;
+        }
+        for (int i = 0; i < 0; i+=2) {
+         
+            if (vetor[i]%2==0) {
                 System.out.println(vetor[i]);
+                if (i%2==0) {
+                    contImparNoPar++;
+                    
+                    
+                }
+
+                
                 
             }
-          else  if (vetor[1]%2==1) {
+         
+
+            
+        }
+        
+        for (int i = 0; i < vetor.length; i+=2) {
+            if (vetor[i]%2==1) {
                 System.out.println(vetor[i]);
+                if (i%2==1) {
+                    contParNoImpar++;
+                    
+                    
+                }
+
                 
             }
 
