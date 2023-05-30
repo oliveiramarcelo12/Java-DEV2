@@ -1,32 +1,35 @@
 package POOInterface;
 
 public class Quadrado implements FigurasGeometrica {
-    int lados;
+    int lado;
+
+    public Quadrado(int lado) {
+        this.lado = lado;
+    }
 
     public int getLados() {
-        return lados;
+        return lado;
     }
 
-    public void setLados(int lados) {
-        this.lados = lados;
+    public void setLados(int lado) {
+        this.lado = lado;
     }
-
+//métodos da classe FigurasGeometricas(interface)
     @Override
     public double getArea() {
-        // TODO Auto-generated method stub
-        return 0;
+       int area=lado*lado;
+        return area;
     }
 
     @Override
     public String getNomeFigura() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Quadrado";
     }
 
     @Override
     public double getPerimetro() {
-        // TODO Auto-generated method stub
-        return 0;
+        int perimetro=lado*4;
+        return perimetro;
     }
     
 
