@@ -9,44 +9,33 @@ import POOHeranca.Pessoas;
 
 public class App {
   
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        Random rd= new Random(0);
-       // vetor de objetos
-        Agenda pessoas[]= new Agenda[10];
-        //prencheer o meu vetor/array
-        for (int i = 0; i < pessoas.length; i++) {
-            //construtor de objetos
-            pessoas[i]= new Agenda();
-            //preencher os atributos
-            pessoas[i].setNome("Pessoa"+i);
-            pessoas[i].setAltura(i);
-            pessoas[i].setIdade(i+18);
-
-            
-        }
-        //buscador
-        System.out.println("Digite um Nome");
-        String nomeDigitado = sc.nextLine();
-        // enquanto nomeDigitado != nome do Objeto
-        //cont e procure
-        boolean teste=true;
-  
-        int cont=0;
-
-        while (!nomeDigitado.equals(pessoas[cont].getNome())) {
-           cont++;
-
-          
-
-
-
-            
-        }
-      System.out.println("Nome: "+pessoas[cont].getNome()
-          +"Idade: "+pessoas[cont].getIdade()
-             +"Altura: "+pessoas[cont].getAltura());
-
-    }
+ 
+        public static void main(String[] args) {
+            Random rd = new Random();
+            //criar um array de objetos
+            Agenda contatos[] = new Agenda[10];
+            //criar e preencher os objetos
+            for (int i = 0; i < contatos.length; i++) {
+                contatos[i] = new Agenda();
+                //preencher os atributos do objjeto
+                contatos[i].setNome(JOptionPane.showInputDialog("Nome:"));
+                contatos[i].setIdade(i+18);
+                contatos[i].setAltura(rd.nextDouble(1.5,2));
+            }
+            //busca de um objetos da Agenda(nome)
+            String nomeBuscado = JOptionPane.showInputDialog(
+                                "Informe o Nome Buscado");
+            int cont=0;// contador
+            boolean procure = true;
+            while(procure){//enquanto procure for verdadeiro loop
+                if(nomeBuscado.equals(contatos[cont].getNome())){
+                    procure = false;//parar o laço
+                    JOptionPane.showMessageDialog(null,
+                        "Idade: "+contatos[cont].getIdade()
+                        +"\nAltura: "+contatos[cont].getAltura());
+                }
+                cont++;
+            }
     
+        }
 }
