@@ -59,6 +59,11 @@ public abstract class Conta {
     }
     public void setSaque(double saque) {
         this.saque = saque;
-    }   
+    } 
+
     
+ public void realizarDeposito(double valor) {
+        saldo += valor;
+    }
+
 }

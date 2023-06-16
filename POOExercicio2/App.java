@@ -1,11 +1,7 @@
 package POOExercicio2;
 
 import java.util.Random;
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
-
-import POOHeranca.Pessoas;
 
 public class App {
   
@@ -13,7 +9,7 @@ public class App {
         public static void main(String[] args) {
             Random rd = new Random();
             //criar um array de objetos
-            Agenda contatos[] = new Agenda[10];
+            Agenda contatos[] = new Agenda[1];
             //criar e preencher os objetos
             for (int i = 0; i < contatos.length; i++) {
                 contatos[i] = new Agenda();
