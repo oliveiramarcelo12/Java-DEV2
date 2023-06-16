@@ -11,7 +11,7 @@ public class App {
         boolean aberto = true;
         int contPJ = 0;
         int contPF = 0;
-        
+
         while (aberto) {
             int acao = Integer.parseInt(JOptionPane.showInputDialog("Informe a ação Desejada:"
                     + "\n 1-Abrir Conta PJ"
@@ -36,58 +36,106 @@ public class App {
                 clientePF[contPF] = new ContaPF();
                 clientePF[contPF].setNome(JOptionPane.showInputDialog("Informe o Nome do Indivíduo"));
                 clientePF[contPF].setnCpf(JOptionPane.showInputDialog("Informe o CPF do Indivíduo"));
-                clientePF[contPF].setnConta(2000 + contPF);
+                clientePF[contPF].setnConta(1000 + contPF);
                 clientePF[contPF].setSaldo(0);
                 // acrescimo no contador
                 JOptionPane.showMessageDialog(null, "Conta Criada com Sucesso");
                 contPF++;
             }
 
-            else if (acao == 3) { // acessar uma conta já criada
+            else if (acao == 3) { // acessar uma conta PJ já criada
                 // localizar a conta no vetor
-                int contaAtual;
-                int i;// contador
-                int nContaBuscada = Integer.parseInt(JOptionPane.showInputDialog("informe o Número da Conta Buscada"));
-                for (i = 0; i < clientePJ.length; i++) {
+                int i; // contador
+                int nContaBuscada = Integer.parseInt(JOptionPane.showInputDialog("Informe o Número da Conta Buscada"));
+                for (i = 0; i < contPJ; i++) {
                     if (nContaBuscada == clientePJ[i].getnConta()) {
-                        contaAtual = i;
                         JOptionPane.showMessageDialog(null, "Conta Encontrada");
+
+                        // menu de acesso da conta
+                        boolean acesso = true;
+                        while (acesso) {
+                            int acao3 = Integer.parseInt(JOptionPane.showInputDialog("Informe a operação Desejada:"
+                                    + "\n 1-Consultar o Saldo"
+                                    + "\n 2-Realizar um Saque"
+                                    + "\n 3-Realizar um Depósito"
+                                    + "\n 4-Sair"));
+                            if (acao3 == 1) { // saldo
+                                JOptionPane.showMessageDialog(null,
+                                        "Seu Saldo é de R$ " + clientePJ[i].getSaldo());
+                            } 
+                            
+                            else if (acao3 == 2) { // saque
+                                clientePJ[i].saque();
+                            } 
+                            
+                            else if (acao3 == 3) { // depósito
+                                clientePJ[i].deposito();
+                            }
+                            
+                            else if (acao3 == 4) { 
+                                clientePJ[i].emprestimo();
+                            }
+                            else if (acao== 5) {
+                                // sair
+                                acesso = false;
+
+                                
+                            }
+                        }
                         break;
-
                     }
-                    
-                  
-
-                   
                 }
-                 // menu de acesso da conta
-                    boolean acesso = true;
-                 while (acesso) {// acessei a conta
-                   
-                        int acao3 = Integer.parseInt(JOptionPane.showInputDialog("Informe a operação Desejada:"
-                                + "\n 1-Consultar o Saldo"
-                                + "\n 2-Realizar um Saque"
-                                + "\n 3-Realizar um Depósito"));
-                        if (acao3 == 1) {// saldo
-                         JOptionPane.showMessageDialog(null, "Saldo: " + clientePJ[contaAtual].getSaldo());
-                        } else if (acao3 == 2) {
+                if (i == contPJ) {
+                    JOptionPane.showMessageDialog(null, "Conta não encontrada.");
+                }
+            } else if (acao == 4) { // acessar uma conta PF já criada
+                // localizar a conta no vetor
+                int i; // contador
+                int nContaBuscada = Integer.parseInt(JOptionPane.showInputDialog("Informe o Número da Conta Buscada"));
+                for (i = 0; i < contPF; i++) {
+                    if (nContaBuscada == clientePF[i].getnConta()) {
+                        JOptionPane.showMessageDialog(null, "Conta Encontrada");
 
+                        // menu de acesso da conta
+                        boolean acesso = true;
+                        while (acesso) {
+                            int acao3 = Integer.parseInt(JOptionPane.showInputDialog("Informe a operação Desejada:"
+                                    + "\n 1-Consultar o Saldo"
+                                    + "\n 2-Realizar um Saque"
+                                    + "\n 3-Realizar um Depósito"
+                                    + "\n 4-Emprétimo"
+                                    + "\n 5-Sair"));
+                            if (acao3 == 1) { // saldo
+                                JOptionPane.showMessageDialog(null,
+                                        "Seu Saldo é de R$ " + clientePF[i].getSaldo());
+                            } 
+                            else if (acao3 == 2) { // saque
+                                clientePF[i].saque();
+                            } 
+                            else if (acao3 == 3) { // depósito
+                                clientePF[i].deposito();
+                            } 
+                            else if (acao3 == 4) { 
+                                clientePF[i].emprestimo();
+                            }
+                            else if (acao== 5) {
+                                // sair
+                                acesso = false;
+
+                                
+                            }
                         }
-
-                        else if (acao3 == 3) { // realizar um depósito
-                            double valorDeposito = Double
-                                    .parseDouble(JOptionPane.showInputDialog("Informe o valor do depósito:"));
-                            clientePJ[contaAtual].realizarDeposito(valorDeposito);
-                            JOptionPane.showMessageDialog(null, "Depósito realizado com sucesso.");
-                        }
-
+                        break;
                     }
-
-
-                
+                }
+                if (i == contPF) {
+                    JOptionPane.showMessageDialog(null, "Conta não encontrada.");
+                }
+            } else if (acao == 5) { // sair
+                aberto = false;
+                JOptionPane.showMessageDialog(null, "Sistema Encerrado.");
             }
-
         }
-    }
 
+    }
 }

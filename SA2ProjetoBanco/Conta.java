@@ -8,62 +8,82 @@ public abstract class Conta {
     double saldo;
     double deposito;
     double emprestimo;
-    double saque;
-    //metódos
-    //construtor default(vazio)
-    //sets e gets
 
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public int getnConta() {
         return nConta;
     }
+
     public void setnConta(int nConta) {
         this.nConta = nConta;
     }
+
     public double getSaldo() {
         return saldo;
     }
+
     public void setSaldo(double saldo) {
         this.saldo = saldo;
-    } 
+    }
+
     public double getDeposito() {
         return deposito;
     }
+
     public void setDeposito(double deposito) {
         this.deposito = deposito;
     }
+
     public double getEmprestimo() {
         return emprestimo;
     }
+
     public void setEmprestimo(double emprestimo) {
         this.emprestimo = emprestimo;
     }
-    
-    //métodos opcionais
+
     public void saque() {
-        double saque = Integer.parseInt(JOptionPane.showInputDialog("Informe o valor do Saque"));
-        saldo -=saque;
-    } 
+        double valorSaque = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor do Saque"));
+        if (valorSaque > 0 && valorSaque <= saldo) {
+            saldo -= valorSaque;
+        } else {
+            JOptionPane.showMessageDialog(null, "Valor de saque inválido");
+        }
+    }
+
     public void deposito() {
-        double deposito = Integer.parseInt(JOptionPane.showInputDialog("informe o valor do Depósito"));
-        saldo +=deposito;
-        
+        double valorDeposito = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor do Depósito"));
+        if (valorDeposito > 0) {
+            saldo += valorDeposito;
+        } else {
+            JOptionPane.showMessageDialog(null, "Valor de depósito inválido");
+        }
     }
-    public double getSaque() {
-        return saque;
-    }
-    public void setSaque(double saque) {
-        this.saque = saque;
+
+    public void emprestimo() {
+        double valorEmpretimo = Double.parseDouble(JOptionPane.showInputDialog(null, "Informe o Valor do Empréstimo"));
+        int prazo = Integer.parseInt(JOptionPane.showInputDialog("Informe o prazo de pagamento em meses"));
+        double taxaJuros=0.15; //taxa de 15% de juros
+        if (valorEmpretimo>0 && prazo >0 ) {
+            double valorJuros= valorEmpretimo*taxaJuros*prazo;
+            double valorTotal= valorEmpretimo +valorJuros;
+            saldo +=valorTotal;
+            emprestimo+=valorTotal;
+             JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso.");
     } 
-
-    
- public void realizarDeposito(double valor) {
-        saldo += valor;
+    else {
+        JOptionPane.showMessageDialog(null, "Valor de empréstimo ou prazo inválido");
     }
 
-}
+            
+        
+        
+
+    }}
