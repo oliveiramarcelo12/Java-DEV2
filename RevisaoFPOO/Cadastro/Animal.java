@@ -1,5 +1,7 @@
 package RevisaoFPOO.Cadastro;
 
+import javax.swing.JOptionPane;
+
 public abstract class Animal {
     //atributos
     String nome;
@@ -16,7 +18,7 @@ public abstract class Animal {
     public Animal(String nome, double peso, String especie, String proprietario, String raca, double idade) {
         this.nome = nome;
         this.peso = peso;
-        this.especie = especie;
+
         this.proprietario = proprietario;
         this.raca = raca;
         this.idade = idade;
@@ -59,5 +61,8 @@ public abstract class Animal {
         this.idade = idade;
     }
     
-    
+    public void idade(){
+        double idadeAnimal=
+
+    }
 }
