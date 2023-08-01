@@ -2,18 +2,22 @@ package RevisaoFPOO.Cadastro.Agenda;
 
 import RevisaoFPOO.Cadastro.Animal;
 
-public class  Agenda  {
+public class  Agenda extends Animal  {
     String nome;
     String proprietario;
-    double peso;
-    int idade;
-    String raca;
-    public Agenda(String nome, String proprietario, double peso, int idade, String raca) {
+    String data;
+    String hora;
+    String dataHora;
+    String servico;
+    public Agenda(String nome, String proprietario, String data, String hora, String dataHora, String servico) {
         this.nome = nome;
         this.proprietario = proprietario;
-        this.peso = peso;
-        this.idade = idade;
-        this.raca = raca;
+        this.data = data;
+        this.hora = hora;
+        this.dataHora = dataHora;
+        this.servico = servico;
+    }
+    public Agenda() {
     }
     public String getNome() {
         return nome;
@@ -27,24 +31,31 @@ public class  Agenda  {
     public void setProprietario(String proprietario) {
         this.proprietario = proprietario;
     }
-    public double getPeso() {
-        return peso;
+    public String getData() {
+        return data;
     }
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setData(String data) {
+        this.data = data;
     }
-    public int getIdade() {
-        return idade;
+    public String getHora() {
+        return hora;
     }
-    public void setIdade(int idade) {
-        this.idade = idade;
+    public void setHora(String hora) {
+        dataHora= data+hora;
+        this.hora = hora;
     }
-    public String getRaca() {
-        return raca;
+    public String getDataHora() {
+        return dataHora;
     }
-    public void setRaca(String raca) {
-        this.raca = raca;
+    public void setDataHora(String dataHora) {
+        this.dataHora = dataHora;
     }
-    
+    public String getServico() {
+        return servico;
+    }
+    public void setServico(String servico) {
+        this.servico = servico;
+    }
+   
     
 }
