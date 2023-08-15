@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 /**
  * Carros
  */
@@ -42,6 +44,15 @@ public void setCor(String cor) {
     this.cor = cor;
 }
 
-
+//metódo próprio
+public String imprimirLN() {
+    String imprimir = marca+"/"+modelo+"/"+ano+"/"+cor+"\n";
+    return imprimir;
+    
+}
+public void imprimir() {
+    JOptionPane.showMessageDialog(null, marca+"\n"+modelo+"\n"+ano+"\n"+cor);
+    
+}
     
 }
