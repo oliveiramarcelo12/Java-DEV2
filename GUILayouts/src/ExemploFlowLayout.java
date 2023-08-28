@@ -16,6 +16,7 @@ public class ExemploFlowLayout {
         janela1.add(campoTexto);
         JButton enviar = new JButton("Enviar");
         janela1.add(enviar);
+        //action ao botão
 
         enviar.addActionListener(e -> {
             int valor = Integer.parseInt(campoTexto.getText());
