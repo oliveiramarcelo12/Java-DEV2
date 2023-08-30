@@ -3,8 +3,8 @@ import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
 
-public class BoderLayoutExemplo {
-    public BoderLayoutExemplo() {
+public class BorderLayoutExemplo {
+    public BorderLayoutExemplo() {
         super();
         JFrame janelaP = new JFrame("Janela Principal");
         BorderLayout border = new BorderLayout();
