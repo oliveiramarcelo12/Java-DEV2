@@ -18,16 +18,11 @@ public class CalculadoraTemperatura {
     frame.setLayout(new FlowLayout());
     JTextField text = new JTextField(10);
     JLabel painel1 = new JLabel("Resultado: ");
-    JLabel painel2 = new JLabel();
     String escalaTemperaturas[] = { "Celsius", "Fahrenheit", "Kelvin" };
     JComboBox<String> comboBox = new JComboBox<>(escalaTemperaturas);
     GridLayout grid = new GridLayout(2, 2);
     painel2.setLayout(grid);
-    String textoN[] = { "7", "8", "9", "4", "5", "6", "1", "2", "3", "0" };
-    for (int i = 0; i < textoN.length; i++) {
-      painel2.add(new JButton(textoN[i]));
-
-    }
+    
     JButton botaoConversor = new JButton("Converter");
     botaoConversor.addActionListener(new ActionListener() {
       @Override
@@ -43,11 +38,11 @@ public class CalculadoraTemperatura {
         String itemSelecionado = (String) comboBox.getSelectedItem();
         StringBuilder resultado = new StringBuilder("Resultado: ");
         if (itemSelecionado.equals("Celsius")) {
-          double fahrenheit = (* 9 / 5) + 32;
+          double fahrenheit = (valorInserido * 9 / 5) + 32;
           double kelvin = valorInserido + 273.15;
           resultado.append("Celsius: ").append(valorInserido).append("°C, ");
-          resultado.append("Fahrenheit: ").append(valorInserido).append("°F, ");
-          resultado.append("Kelvin: ").append(valorInserido).append("°K");
+          resultado.append("Fahrenheit: ").append(fahrenheit).append("°F, ");
+          resultado.append("Kelvin: ").append(kelvin).append("K");
 
         } else if (itemSelecionado.equals("Fahrenheit")) {
           double celsius = (valorInserido - 32) * 5 / 9;
