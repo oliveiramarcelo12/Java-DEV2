@@ -30,8 +30,13 @@ public class CalculadoraTemperatura extends JPanel {
         escalaOrigemComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
         JLabel converterLabel = new JLabel("Converter para:");
         escalaDestinoComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
-        JButton converterButton = new JButton("Converter");
-        JButton limparButton = new JButton("Limpar"); // Botão para limpar campos
+        // Criação dos botões "Converter" e "Limpar"
+JButton converterButton = new JButton("Converter");
+JButton limparButton = new JButton("Limpar");
+
+// Definir largura preferencial para os botões
+converterButton.setPreferredSize(new Dimension(50, 30)); // Largura: 150 pixels, Altura: 30 pixels
+limparButton.setPreferredSize(new Dimension(150, 30));    // Largura: 150 pixels, Altura: 30 pixels
 
         valorTextField = new JTextField("0.0", 10);
 
