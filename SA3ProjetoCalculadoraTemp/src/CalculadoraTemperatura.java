@@ -14,54 +14,85 @@ public class CalculadoraTemperatura extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento interno
 
-        // Label e campo de valor
+        // Título em Arial
+        JLabel tituloLabel = new JLabel("Conversor de Temperaturas");
+        Font tituloFonte = new Font("Arial", Font.BOLD, 16);
+        tituloLabel.setFont(tituloFonte);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Valor:"), gbc);
+        gbc.gridwidth = 2; // Ocupa 2 colunas
+        gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
+        gbc.anchor = GridBagConstraints.CENTER; // Alinhamento central
+        add(tituloLabel, gbc);
 
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-        valorTextField = new JTextField("0.0", 10);
-        add(valorTextField, gbc);
+        // Criação dos componentes
+        JLabel temperaturaLabel = new JLabel("Valor:");
+        escalaOrigemComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
+        JLabel converterLabel = new JLabel("Converter para:");
+        escalaDestinoComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
+        JButton converterButton = new JButton("Converter");
+        JButton limparButton = new JButton("Limpar"); // Botão para limpar campos
 
-        // Label e combobox de escala de origem
+        valorTextField = new JTextField("0.0 ", 10);
+
+        // Configuração das posições dos componentes usando GridBagConstraints
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Escala de Origem:"), gbc);
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        add(temperaturaLabel, gbc);
 
         gbc.gridx = 1;
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        escalaOrigemComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
-        add(escalaOrigemComboBox, gbc);
+        add(valorTextField, gbc);
 
-        // Label e combobox de escala de destino
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(new JLabel("Converter para:"), gbc);
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        add(converterLabel, gbc);
 
         gbc.gridx = 1;
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        escalaDestinoComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
-        add(escalaDestinoComboBox, gbc);
+        add(escalaOrigemComboBox, gbc);
 
-        // Botão de conversão
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.CENTER;
-        JButton converterButton = new JButton("Converter");
+      
+
+        gbc.gridx = 1;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(escalaDestinoComboBox, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 3;
         add(converterButton, gbc);
 
-        // Configurando ação para o botão de conversão
+        // Configuração do botão "Limpar"
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        add(limparButton, gbc);
+
+        // Configuração da ação do botão "Converter"
         converterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 converterTemperatura();
+            }
+        });
+
+        // Configuração da ação do botão "Limpar"
+        limparButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limparCampos();
             }
         });
     }
@@ -74,37 +105,48 @@ public class CalculadoraTemperatura extends JPanel {
             String escalaDestino = (String) escalaDestinoComboBox.getSelectedItem();
             double resultado = calcularConversao(valorInserido, escalaOrigem, escalaDestino);
 
-            // Mostrar o resultado em uma nova janela de diálogo
-            JOptionPane.showMessageDialog(this, "Resultado: " + resultado, "Resultado da Conversão", JOptionPane.INFORMATION_MESSAGE);
+            // Exibir o resultado em uma janela de diálogo
+            JOptionPane.showMessageDialog(this, "Resultado: " + resultado, "Conversão de Temperatura", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Insira um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    // Função para calcular a conversão de temperatura
+    // Método para calcular a conversão de temperatura
     private double calcularConversao(double valor, String escalaOrigem, String escalaDestino) {
-        // Adicione aqui suas fórmulas de conversão de temperatura
-        // Por exemplo:
-        if (escalaOrigem.equals("Celsius") && escalaDestino.equals("Fahrenheit")) {
-            return (valor * 9 / 5) + 32;
-        } else if (escalaOrigem.equals("Fahrenheit") && escalaDestino.equals("Celsius")) {
-            return (valor - 32) * 5 / 9;
-        } else if (escalaOrigem.equals("Celsius") && escalaDestino.equals("Kelvin")) {
-            return valor + 273.15;
+        double resultado = 0.0;
+
+        if (escalaOrigem.equals(escalaDestino)) {
+            resultado = valor;
+        } else if (escalaOrigem.equals("Celsius")) {
+            if (escalaDestino.equals("Fahrenheit")) {
+                resultado = (valor * 9 / 5) + 32;
+            } else if (escalaDestino.equals("Kelvin")) {
+                resultado = valor + 273.15;
+            }
+        } else if (escalaOrigem.equals("Fahrenheit")) {
+            if (escalaDestino.equals("Celsius")) {
+                resultado = (valor - 32) * 5 / 9;
+            } else if (escalaDestino.equals("Kelvin")) {
+                resultado = (valor - 32) * 5 / 9 + 273.15;
+            }
+        } else if (escalaOrigem.equals("Kelvin")) {
+            if (escalaDestino.equals("Celsius")) {
+                resultado = valor - 273.15;
+            } else if (escalaDestino.equals("Fahrenheit")) {
+                resultado = (valor - 273.15) * 9 / 5 + 32;
+            }
         }
-        // Adicione mais casos conforme necessário
-        return valor; // Retorna o mesmo valor se as escalas forem iguais
+
+        return resultado;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("Calculadora de Temperatura");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.getContentPane().add(new CalculadoraTemperatura());
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
+    // Método para limpar campos
+    private void limparCampos() {
+        valorTextField.setText("0.0");
+        escalaOrigemComboBox.setSelectedIndex(0);
+        escalaDestinoComboBox.setSelectedIndex(0);
     }
+
+    
 }
