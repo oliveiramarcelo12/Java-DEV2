@@ -18,8 +18,8 @@ public class CalculadoraTemperatura extends JPanel {
         JLabel tituloLabel = new JLabel("Conversor de Temperaturas");
         Font tituloFonte = new Font("Arial", Font.BOLD, 16);
         tituloLabel.setFont(tituloFonte);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridx = 0; // Coluna 0
+        gbc.gridy = 0; // Linha 0
         gbc.gridwidth = 2; // Ocupa 2 colunas
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
         gbc.anchor = GridBagConstraints.CENTER; // Alinhamento central
@@ -33,51 +33,51 @@ public class CalculadoraTemperatura extends JPanel {
         JButton converterButton = new JButton("Converter");
         JButton limparButton = new JButton("Limpar"); // Botão para limpar campos
 
-        valorTextField = new JTextField("0.0 ", 10);
+        valorTextField = new JTextField("0.0", 10);
 
         // Configuração das posições dos componentes usando GridBagConstraints
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0; // Coluna 0
+        gbc.gridy = 1; // Linha 1
+        gbc.gridwidth = 1; // Ocupa 1 coluna
+        gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
         add(temperaturaLabel, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1; // Coluna 1
+        gbc.gridwidth = 2; // Ocupa 2 colunas
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
         add(valorTextField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0; // Coluna 0
+        gbc.gridy = 2; // Linha 2
+        gbc.gridwidth = 1; // Ocupa 1 coluna
+        gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
         add(converterLabel, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1; // Coluna 1
+        gbc.gridwidth = 2; // Ocupa 2 colunas
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
         add(escalaOrigemComboBox, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.NONE;
-      
+        gbc.gridx = 0; // Coluna 0
+        gbc.gridy = 3; // Linha 3
+        gbc.gridwidth = 1; // Ocupa 1 coluna
+        gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
+        add(converterLabel, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1; // Coluna 1
+        gbc.gridwidth = 2; // Ocupa 2 colunas
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
         add(escalaDestinoComboBox, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 3;
+        gbc.gridx = 0; // Coluna 0
+        gbc.gridy = 4; // Linha 4
+        gbc.gridwidth = 3; // Ocupa 3 colunas
         add(converterButton, gbc);
 
         // Configuração do botão "Limpar"
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
+        gbc.gridx = 1; // Coluna 1
+        gbc.gridy = 5; // Linha 5
+        gbc.gridwidth = 2; // Ocupa 2 colunas
         add(limparButton, gbc);
 
         // Configuração da ação do botão "Converter"
@@ -147,6 +147,5 @@ public class CalculadoraTemperatura extends JPanel {
         escalaOrigemComboBox.setSelectedIndex(0);
         escalaDestinoComboBox.setSelectedIndex(0);
     }
-
-    
 }
+
