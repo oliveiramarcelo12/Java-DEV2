@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.Border;
 
 public class CalculadoraTemperatura extends JPanel {
     private JTextField valorTextField;
@@ -11,16 +10,19 @@ public class CalculadoraTemperatura extends JPanel {
 
     public CalculadoraTemperatura() {
         // Configurar o layout do painel principal
+        setBackground(Color.WHITE); // Define o fundo como branco
         setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints(); // Define configurações de posicionamento
+
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento interno
 
-        // Título em Arial
+        // Título em Arial com cor de fundo
         JLabel tituloLabel = new JLabel("Conversor de Temperaturas");
         Font tituloFonte = new Font("Arial", Font.BOLD, 16);
         tituloLabel.setFont(tituloFonte);
-
-        // Configurações para o título
+        tituloLabel.setOpaque(true); // Permite definir a cor de fundo
+        tituloLabel.setBackground(Color.BLUE); // Define a cor de fundo
+        tituloLabel.setForeground(Color.WHITE); // Define a cor do texto
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 0; // Linha 0
         gbc.gridwidth = 2; // Ocupa 2 colunas
@@ -34,32 +36,26 @@ public class CalculadoraTemperatura extends JPanel {
         JLabel converterLabel = new JLabel("Converter para:");
         escalaDestinoComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
 
+        // Botão "Converter" com cores de fundo e texto personalizados
         JButton converterButton = new JButton("Converter");
+        converterButton.setBackground(Color.BLACK); // Define a cor de fundo do botão
+        converterButton.setForeground(Color.WHITE); // Define a cor do texto do botão
+        converterButton.setPreferredSize(new Dimension(150, 30)); // Define o tamanho do botão
+
+        // Botão "Limpar" com cores de fundo e texto personalizados
         JButton limparButton = new JButton("Limpar");
-
-        // Aplicar estilo aos botões (mesmo estilo da Calculadora2)
-        Font botaoFonte = new Font("Arial", Font.PLAIN, 16);
-        converterButton.setFont(botaoFonte);
-        limparButton.setFont(botaoFonte);
-
-        // Definir largura preferencial para os botões (mesmo tamanho)
-        Dimension botaoDimension = new Dimension(100, 30); // Largura: 100 pixels, Altura: 30 pixels
-        converterButton.setPreferredSize(botaoDimension);
-        limparButton.setPreferredSize(botaoDimension);
-
-        // Adicionar borda aos botões
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
-        converterButton.setBorder(border);
-        limparButton.setBorder(border);
+        limparButton.setBackground(Color.RED); // Define a cor de fundo do botão
+        limparButton.setForeground(Color.WHITE); // Define a cor do texto do botão
+        limparButton.setPreferredSize(new Dimension(150, 30)); // Define o tamanho do botão
 
         valorTextField = new JTextField("0.0", 10);
 
-        // Configurações para os campos e rótulos
+        // Configuração das posições dos componentes usando GridBagConstraints
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 1; // Linha 1
         gbc.gridwidth = 1; // Ocupa 1 coluna
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
-        add(temperaturaLabel, gbc); //valor
+        add(temperaturaLabel, gbc);
 
         gbc.gridx = 1; // Coluna 1
         gbc.gridwidth = 2; // Ocupa 2 colunas
@@ -88,20 +84,19 @@ public class CalculadoraTemperatura extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
         add(escalaDestinoComboBox, gbc);
 
-        // Painel para os botões Converter e Limpar
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centraliza os botões
-
-        // Adicione os botões ao painel
-        buttonPanel.add(converterButton);
-        buttonPanel.add(limparButton);
-
-        // Configurações para o painel de botões
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 4; // Linha 4
-        gbc.gridwidth = 3; // Ocupa 3 colunas
+        gbc.gridwidth = 1; // Ocupa 1 coluna
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
-        add(buttonPanel, gbc);
+        add(converterButton, gbc);
 
+        gbc.gridx = 1; // Coluna 1
+        gbc.gridy = 4; // Linha 4
+        gbc.gridwidth = 1; // Ocupa 1 coluna
+        gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
+        add(limparButton, gbc);
+
+        // Configuração da ação do botão "Converter"
         converterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,6 +104,7 @@ public class CalculadoraTemperatura extends JPanel {
             }
         });
 
+        // Configuração da ação do botão "Limpar"
         limparButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -166,5 +162,18 @@ public class CalculadoraTemperatura extends JPanel {
         valorTextField.setText("0.0");
         escalaOrigemComboBox.setSelectedIndex(0);
         escalaDestinoComboBox.setSelectedIndex(0);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("Calculadora de Temperatura");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.add(new CalculadoraTemperatura());
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
     }
 }
