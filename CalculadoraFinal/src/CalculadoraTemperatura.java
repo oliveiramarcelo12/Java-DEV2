@@ -17,7 +17,7 @@ public class CalculadoraTemperatura extends JPanel {
 
                // Título em Arial
                JLabel tituloLabel = new JLabel("Calculadora de Temperaturas");
-               Font tituloFonte = new Font("Arial", Font.BOLD, 16);
+               Font tituloFonte = new Font("Arial", Font.BOLD, 12);
                tituloLabel.setFont(tituloFonte);
       
         // Configurações para o título
