@@ -15,27 +15,31 @@ public class CalculadoraTemperatura extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints(); // Define configurações de posicionamento
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento interno
 
-        // Título em Arial
-        JLabel tituloLabel = new JLabel("Conversor de Temperaturas");
-        Font tituloFonte = new Font("Arial", Font.BOLD, 16);
-        tituloLabel.setFont(tituloFonte);
-
+               // Título em Arial
+               JLabel tituloLabel = new JLabel("Conversor de Temperaturas");
+               Font tituloFonte = new Font("Arial", Font.BOLD, 16);
+               tituloLabel.setFont(tituloFonte);
+      
         // Configurações para o título
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 0; // Linha 0
-        gbc.gridwidth = 2; // Ocupa 2 colunas
+        gbc.gridwidth = 3; // Ocupa 3 colunas (largura estendida)
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
         gbc.anchor = GridBagConstraints.CENTER; // Alinhamento central
         add(tituloLabel, gbc);
 
+
         // Criação dos componentes
         JLabel temperaturaLabel = new JLabel("Valor:");
+        JLabel origemLabel = new JLabel("De:");
         escalaOrigemComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
-        JLabel converterLabel = new JLabel("Converter para:");
+        JLabel converterLabel = new JLabel("Para:");
         escalaDestinoComboBox = new JComboBox<>(new String[]{"Celsius", "Fahrenheit", "Kelvin"});
 
         JButton converterButton = new JButton("Converter");
         JButton limparButton = new JButton("Limpar");
+      
+
 
         // Aplicar estilo aos botões (mesmo estilo da Calculadora2)
         Font botaoFonte = new Font("Arial", Font.PLAIN, 16);
@@ -51,6 +55,14 @@ public class CalculadoraTemperatura extends JPanel {
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         converterButton.setBorder(border);
         limparButton.setBorder(border);
+            
+        // Personalizar as cores dos botões
+             converterButton.setBackground(Color.blue);
+             converterButton.setForeground(Color.WHITE);
+             limparButton.setBackground(Color.RED);
+             limparButton.setForeground(Color.WHITE);
+  // Personalizar o fundo do painel principal
+  this.setBackground(Color.white);
 
         valorTextField = new JTextField("0.0", 10);
 
@@ -59,37 +71,35 @@ public class CalculadoraTemperatura extends JPanel {
         gbc.gridy = 1; // Linha 1
         gbc.gridwidth = 1; // Ocupa 1 coluna
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
-        add(temperaturaLabel, gbc); //valor
+        add(temperaturaLabel, gbc); // Rótulo "Valor"
 
         gbc.gridx = 1; // Coluna 1
         gbc.gridwidth = 2; // Ocupa 2 colunas
         gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
-        add(valorTextField, gbc);
+        add(valorTextField, gbc); // Campo de texto
 
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 2; // Linha 2
         gbc.gridwidth = 1; // Ocupa 1 coluna
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
-        add(converterLabel, gbc);
+        add(origemLabel, gbc); // Rótulo "De"
 
         gbc.gridx = 1; // Coluna 1
-        gbc.gridwidth = 2; // Ocupa 2 colunas
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
-        add(escalaOrigemComboBox, gbc);
-
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 3; // Linha 3
         gbc.gridwidth = 1; // Ocupa 1 coluna
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
-        add(converterLabel, gbc);
+        escalaOrigemComboBox.setPreferredSize(new Dimension(100, 30)); // Defina o tamanho preferencial
+        add(escalaOrigemComboBox, gbc); // JComboBox de origem
 
-        gbc.gridx = 1; // Coluna 1
-        gbc.gridwidth = 2; // Ocupa 2 colunas
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Preenchimento horizontal
-        add(escalaDestinoComboBox, gbc);
+        gbc.gridx = 2; // Coluna 2
+        add(converterLabel, gbc); // Rótulo "Para"
+
+        gbc.gridx = 3; // Coluna 3
+        escalaDestinoComboBox.setPreferredSize(new Dimension(100, 30)); // Defina o tamanho preferencial
+        add(escalaDestinoComboBox, gbc); // JComboBox de destino
 
         // Painel para os botões Converter e Limpar
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centraliza os botões
+        buttonPanel.setBackground(Color.WHITE);
 
         // Adicione os botões ao painel
         buttonPanel.add(converterButton);
@@ -97,8 +107,8 @@ public class CalculadoraTemperatura extends JPanel {
 
         // Configurações para o painel de botões
         gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 4; // Linha 4
-        gbc.gridwidth = 3; // Ocupa 3 colunas
+        gbc.gridy = 3; // Linha 3
+        gbc.gridwidth = 4; // Ocupa 4 colunas
         gbc.fill = GridBagConstraints.NONE; // Sem preenchimento
         add(buttonPanel, gbc);
 
@@ -125,10 +135,29 @@ public class CalculadoraTemperatura extends JPanel {
             String escalaDestino = (String) escalaDestinoComboBox.getSelectedItem();
             double resultado = calcularConversao(valorInserido, escalaOrigem, escalaDestino);
 
+            // Concatene as unidades de temperatura ao resultado
+            String unidadeOrigem = obterUnidade(escalaOrigem);
+            String unidadeDestino = obterUnidade(escalaDestino);
+            String mensagem = "Resultado: " + resultado + unidadeDestino;
+
             // Exibir o resultado em uma janela de diálogo
-            JOptionPane.showMessageDialog(this, "Resultado: " + resultado, "Conversão de Temperatura", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, mensagem, "Conversão de Temperatura", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Insira um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Método para obter a unidade de temperatura com base na escala
+    private String obterUnidade(String escala) {
+        switch (escala) {
+            case "Celsius":
+                return "°C";
+            case "Fahrenheit":
+                return "°F";
+            case "Kelvin":
+                return "°K";
+            default:
+                return "";
         }
     }
 
@@ -167,4 +196,6 @@ public class CalculadoraTemperatura extends JPanel {
         escalaOrigemComboBox.setSelectedIndex(0);
         escalaDestinoComboBox.setSelectedIndex(0);
     }
+
+   
 }
