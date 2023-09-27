@@ -3,6 +3,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Exercicio3CardLayout extends JFrame {
     public Exercicio3CardLayout() {
@@ -16,11 +18,7 @@ public class Exercicio3CardLayout extends JFrame {
 
         CardLayout cl = new CardLayout();
         JPanel cards = new JPanel(cl); // painel de cards
-        painelp.add(bPrincipal);
-        painelp.add(bLogin);
-        painelp.add(bRegistro);
 
-        painelp.add(cards);
         // criar 3 paineis de cards(card1,card2,card3)
         JPanel principal = new JPanel();
         JPanel login = new JPanel();
@@ -36,21 +34,21 @@ public class Exercicio3CardLayout extends JFrame {
 
         Font fonteArial = new Font("Arial", Font.PLAIN, 14);
         rotuloPrincipal.setFont(fonteArial);
-        // Adicione o rótulo ao painel
-        principal.add(rotuloPrincipal);
-        // Adicione o painel à janela
-        painelp.add(principal, "Principal");
         rotuloLogin.setFont(fonteArial);
-        // Adicione o rótulo ao painel
-        login.add(rotuloPrincipal);
-        // Adicione o painel à janela
-        painelp.add(principal, "Principal");
+        rotuloRegistro.setFont(fonteArial);
 
-        // Adicione o painel à janela
-        painelp.add(registro, "Registro");
+        // Adicione o rótulo ao painel "principal"
+        principal.add(rotuloPrincipal);
+        // Adicione o rótulo ao painel "login"
+        login.add(rotuloLogin);
+        // Adicione o rótulo ao painel "registro"
+        registro.add(rotuloRegistro);
+
+        // Adicione o painel "cards" ao painel principal "painelp"
+        painelp.add(cards);
 
         // set do frame
-        this.setDefaultCloseOperation(2);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100, 100, 300, 300);
         this.setVisible(true);
         // criar o evento para o botão
@@ -64,6 +62,13 @@ public class Exercicio3CardLayout extends JFrame {
             cl.show(cards, "Registro");
         });
 
+        // Adicione os botões ao painel principal "painelp"
+        painelp.add(bPrincipal);
+        painelp.add(bLogin);
+        painelp.add(bRegistro);
     }
 
+    public static void main(String[] args) {
+        new Exercicio3CardLayout();
+    }
 }
