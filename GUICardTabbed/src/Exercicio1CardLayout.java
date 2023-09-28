@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,37 +13,34 @@ import javax.swing.JTextField;
 public class Exercicio1CardLayout extends JFrame {
     public Exercicio1CardLayout() {
         super("Exercicio1");
-        JPanel pMain = new JPanel(); // janela principal
+        JPanel pMain = new JPanel(new BorderLayout()); // janela principal
         // add painel principal ao JFrame
         this.add(pMain);
         // criando um botão e um painel de cards
         JButton bNext = new JButton("Next");// botão
-        CardLayout cl = new CardLayout();
-        JPanel cards = new JPanel(cl);// painel de cards
-        // add o botão e o cards ao painel principal
-        pMain.add(bNext);
-        pMain.add(cards);
-        // criar 3 paineis de cards(card1,card2,card3)
-        JPanel card1 = new JPanel();
-        JPanel card2 = new JPanel();
-        JPanel card3 = new JPanel();
-        // add os card1,card2, card3 ao cards
-        cards.add(card1, "card1");
-        cards.add(card2, "card2");
-        cards.add(card3, "card3");
-        //diferenciando os cards
-        card1.add(new JLabel("Card 1"));
-        card2.add(new JLabel("Card 2"));
-        card3.add(new JLabel("Card 3"));
-        //set do frame
-        this.setDefaultCloseOperation(2);
-        this.setBounds(100, 100, 300, 300);
-        this.setVisible(true);
-        //criar o evento para o  botão
-        bNext.addActionListener(e->{
-            cl.next(cards); //toda vez que clicar no botão, vai mudar o card(card1,card2,card3)
-
-        });
+        pMain.add(bNext,BorderLayout.NORTH);
+         //add um painel de cards ao centro -> CardLayout
+         CardLayout cl = new CardLayout();//layout do painel 
+         JPanel cardPanel = new JPanel(cl); //criação do painel no layout
+         pMain.add(cardPanel,BorderLayout.CENTER);
+         //criar os paineis do cardLayout
+         JPanel card1 = new JPanel();//card1
+         card1.add(new JLabel("Card 1"));
+         cardPanel.add(card1,"Card 1");
+         JPanel card2 = new JPanel();//card2
+         card2.add(new JLabel("Card 2"));
+         cardPanel.add(card2,"Card 2");
+         JPanel card3 = new JPanel();//card3
+         card3.add(new JLabel("Card 3"));
+         cardPanel.add(card3,"Card 3");
+         //set do Frame
+         this.setDefaultCloseOperation(2);
+         this.setBounds(100, 100, 300, 300);
+         this.setVisible(true);
+         //criar a ação para o botão
+         bNext.addActionListener(e->{
+            cl.next(cardPanel);
+         });
 
     }
 
