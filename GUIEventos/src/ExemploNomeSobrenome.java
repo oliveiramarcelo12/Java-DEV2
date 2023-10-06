@@ -69,9 +69,9 @@ public class ExemploNomeSobrenome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
            // evento 
-           texto.setText(caixaNome.getText()+""+caixaSobrenome.getText());
-           caixaNome.setText("");
-           caixaSobrenome.setText("");
+           texto.setText(caixaNome.getText()+" "+caixaSobrenome.getText());
+           caixaNome.setText(" ");
+           caixaSobrenome.setText(" ");
             }
         }
 
