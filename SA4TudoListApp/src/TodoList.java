@@ -9,8 +9,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,9 +22,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.TransferHandler;
-
+import javax.swing.JFrame;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class TodoList extends JFrame {
     // Atributos
@@ -40,9 +54,51 @@ public class TodoList extends JFrame {
     public TodoList() {
         // Configuração da janela
         super("TodoListApp");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(480, 400);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                System.out.println("Janela aberta!");
+            }
 
+            public void windowClosing(WindowEvent e) {
+                Object[] options = { "Sim", "Não" };
+                int choice = JOptionPane.showOptionDialog(TodoList.this,
+                        "Deseja Fechar a Janela?",
+                        "Confirmação",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if (choice == 0) { // 0 representa "Sim" no array
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    dispose();
+                } else if (choice == 1) { // 1 representa "Não" no array
+                    // Não faz nada, apenas fecha o diálogo de confirmação
+                }
+            }
+            
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.out.println("Janela fechada!");
+            }
+        });
+        // Adicione o ComponentListener ao JFrame
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // O código a ser executado quando a janela for redimensionada
+                int novaLargura = getWidth();
+                int novaAltura = getHeight();
+                System.out.println("Janela redimensionada para " + novaLargura + "x" + novaAltura);
+            }
+        });
+       
+
+       
+    
         // Inicializa o painel principal
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -57,7 +113,7 @@ public class TodoList extends JFrame {
         addButton = new JButton("Adicionar");
         deleteButton = new JButton("Excluir");
         markDoneButton = new JButton("Concluir");
-        filterComboBox = new JComboBox<>(new String[]{"Todas", "Ativas", "Concluídas"});
+        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas" });
         clearCompletedButton = new JButton("Limpar Concluídas");
 
         // Configuração do painel de entrada
@@ -84,66 +140,90 @@ public class TodoList extends JFrame {
         // Adiciona o painel principal à janela
         this.add(mainPanel);
 
-        // Configuração do MouseListener para o botão "Add"
-       deleteButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-               deleteSelectedTask();
-            }
+        // Configuração do MouseListener e KeyListener para o botão "Excluir"
+deleteButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        deleteSelectedTask();
+    }
+});
 
-        });
-         addButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-               addTask();
-            }
+// Configuração do InputMap e ActionMap para o botão "Excluir" e a tecla "Delete"
+InputMap inputMap = deleteButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+ActionMap actionMap = deleteButton.getActionMap();
 
-        });
-         markDoneButton.addMouseListener(new MouseAdapter() {
+inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "deleteTask");
+actionMap.put("deleteTask", new AbstractAction() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        deleteSelectedTask();
+    }
+});        // Adiciona o ActionListener para o botão "Adicionar"
+             addButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    addTask();
+                }
+            });
+           // InputMap: Mapeia eventos de entrada (teclas, etc.) para nomes de ações.
+// ActionMap: Mapeia nomes de ações para objetos de ação reais.
+            // Configuração do InputMap e ActionMap para o botão "Adicionar" e a tecla Enter
+InputMap addInputMap = addButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+ActionMap addActionMap = addButton.getActionMap();
+
+addInputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "addTask");
+addActionMap.put("addTask", new AbstractAction() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        addTask();
+    }
+});
+        markDoneButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 markTaskDone();
             }
 
         });
-          filterComboBox.addMouseListener(new MouseAdapter() {
+        filterComboBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                 filterTasks();
+                filterTasks();
             }
 
         });
-         clearCompletedButton.addMouseListener(new MouseAdapter() {
+        clearCompletedButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 clearCompletedTasks();
             }
 
         });
-    }   
-   // Método para excluir a tarefa selecionada
- private void deleteSelectedTask() {
-    int selectedIndex = taskList.getSelectedIndex();
-    if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
-        Object[] options = {"Sim", "Não"};
-        int choice = JOptionPane.showOptionDialog(this,
-                "Você tem certeza que deseja excluir esta tarefa?",
-                "Confirmação de Exclusão",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
+    }
 
-        if (choice == 0) { // 0 representa "Sim" no array
-            tasks.remove(selectedIndex);
-            updateTaskList();
-            JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
-        } else {
-            JOptionPane.showMessageDialog(this, "");
+    // Método para excluir a tarefa selecionada
+    private void deleteSelectedTask() {
+        int selectedIndex = taskList.getSelectedIndex();
+        if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+            Object[] options = { "Sim", "Não" };
+            int choice = JOptionPane.showOptionDialog(this,
+                    "Você tem certeza que deseja excluir esta tarefa?",
+                    "Confirmação de Exclusão",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (choice == 0) { // 0 representa "Sim" no array
+                tasks.remove(selectedIndex);
+                updateTaskList();
+                JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(this, "");
+            }
         }
     }
-}
 
     // Método para adicionar uma nova tarefa
     private void addTask() {
@@ -216,7 +296,8 @@ public class TodoList extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     elapsedTime++;
-                    System.out.println("Tempo decorrido para a tarefa '" + description + "': " + elapsedTime + " segundos");
+                    System.out.println(
+                            "Tempo decorrido para a tarefa '" + description + "': " + elapsedTime + " segundos");
                 }
             });
         }
@@ -278,12 +359,13 @@ public class TodoList extends JFrame {
                 e.printStackTrace();
                 return false;
             }
-       
+
+        }
     }
-} public void run() {
-// Exibe a janela
-this.setVisible(true);
-}
-  
+
+    public void run() {
+        // Exibe a janela
+        this.setVisible(true);
+    }
 
 }
