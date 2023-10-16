@@ -54,6 +54,7 @@ public class TodoList extends JFrame {
     public TodoList() {
         // Configuração da janela
         super("TodoListApp");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(480, 400);
         this.addWindowListener(new WindowAdapter() {
             @Override
