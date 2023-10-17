@@ -17,6 +17,7 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,6 +37,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.Timer;
+import java.awt.Color;
 
 public class TodoList extends JFrame {
     // Atributos
@@ -49,17 +52,20 @@ public class TodoList extends JFrame {
     private JComboBox<String> filterComboBox;
     private JButton clearCompletedButton;
     private List<Task> tasks;
+    private JLabel timerLabel;
+    private Timer timer;
 
     // Construtor
     public TodoList() {
         // Configuração da janela
         super("TodoListApp");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setSize(480, 400);
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                System.out.println("Janela aberta!");
+                JOptionPane.showMessageDialog(TodoList.this, "Janela aberta!");
             }
 
             public void windowClosing(WindowEvent e) {
@@ -74,16 +80,16 @@ public class TodoList extends JFrame {
                         options[0]);
                 if (choice == 0) { // 0 representa "Sim" no array
                     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    dispose();
-                } else if (choice == 1) { // 1 representa "Não" no array
+
+                } else if (choice == 1) {
                     // Não faz nada, apenas fecha o diálogo de confirmação
                 }
+
             }
-            
 
             @Override
             public void windowClosed(WindowEvent e) {
-                System.out.println("Janela fechada!");
+                JOptionPane.showMessageDialog(TodoList.this, "Janela fechada!");
             }
         });
         // Adicione o ComponentListener ao JFrame
@@ -96,10 +102,7 @@ public class TodoList extends JFrame {
                 System.out.println("Janela redimensionada para " + novaLargura + "x" + novaAltura);
             }
         });
-       
 
-       
-    
         // Inicializa o painel principal
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -116,6 +119,18 @@ public class TodoList extends JFrame {
         markDoneButton = new JButton("Concluir");
         filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas" });
         clearCompletedButton = new JButton("Limpar Concluídas");
+
+        timerLabel = new JLabel("Tempo decorrido: 0 segundos");
+        mainPanel.add(timerLabel, BorderLayout.SOUTH);
+        // Alterar as cores dos botões
+        addButton.setBackground(Color.GREEN);
+        deleteButton.setBackground(Color.RED);
+        markDoneButton.setBackground(Color.BLUE);
+        clearCompletedButton.setBackground(Color.ORANGE);
+        // Alterar a cor de fundo da lista
+        taskList.setBackground(Color.WHITE);
+        // Alterar a cor de fundo do painel principal
+        mainPanel.setBackground(Color.GRAY);
 
         // Configuração do painel de entrada
         JPanel inputPanel = new JPanel(new BorderLayout());
@@ -134,51 +149,51 @@ public class TodoList extends JFrame {
         mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Configuração do TransferHandler para a JList
-        taskList.setDropMode(DropMode.ON);
-        taskList.setTransferHandler(new TaskTransferHandler());
-
         // Adiciona o painel principal à janela
         this.add(mainPanel);
 
         // Configuração do MouseListener e KeyListener para o botão "Excluir"
-deleteButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        deleteSelectedTask();
-    }
-});
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteSelectedTask();
+            }
+        });
+        deleteButton.setForeground(Color.WHITE);  // Define a cor do texto como branco
 
-// Configuração do InputMap e ActionMap para o botão "Excluir" e a tecla "Delete"
-InputMap inputMap = deleteButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
-ActionMap actionMap = deleteButton.getActionMap();
 
-inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "deleteTask");
-actionMap.put("deleteTask", new AbstractAction() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        deleteSelectedTask();
-    }
-});        // Adiciona o ActionListener para o botão "Adicionar"
-             addButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    addTask();
-                }
-            });
-           // InputMap: Mapeia eventos de entrada (teclas, etc.) para nomes de ações.
-// ActionMap: Mapeia nomes de ações para objetos de ação reais.
-            // Configuração do InputMap e ActionMap para o botão "Adicionar" e a tecla Enter
-InputMap addInputMap = addButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
-ActionMap addActionMap = addButton.getActionMap();
 
-addInputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "addTask");
-addActionMap.put("addTask", new AbstractAction() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        addTask();
-    }
-});
+        // Configuração do InputMap e ActionMap para o botão "Excluir" e a tecla
+        // "Delete"
+        InputMap inputMap = deleteButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = deleteButton.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "deleteTask");
+        actionMap.put("deleteTask", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteSelectedTask();
+            }
+        }); // Adiciona o ActionListener para o botão "Adicionar"
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addTask();
+            }
+        });
+        // InputMap: Mapeia eventos de entrada (teclas, etc.) para nomes de ações.
+        // ActionMap: Mapeia nomes de ações para objetos de ação reais.
+        // Configuração do InputMap e ActionMap para o botão "Adicionar" e a tecla Enter
+        InputMap addInputMap = addButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap addActionMap = addButton.getActionMap();
+
+        addInputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "addTask");
+        addActionMap.put("addTask", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addTask();
+            }
+        });
         markDoneButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -186,6 +201,7 @@ addActionMap.put("addTask", new AbstractAction() {
             }
 
         });
+        markDoneButton.setForeground(Color.WHITE);  // Define a cor do texto como branco
         filterComboBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -221,16 +237,18 @@ addActionMap.put("addTask", new AbstractAction() {
                 updateTaskList();
                 JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
             } else {
-                JOptionPane.showMessageDialog(this, "");
+
             }
         }
     }
 
     // Método para adicionar uma nova tarefa
+    // Método para adicionar uma nova tarefa
     private void addTask() {
         String taskDescription = taskInputField.getText().trim();
         if (!taskDescription.isEmpty()) {
-            Task newTask = new Task(taskDescription);
+            Task newTask = new Task(taskDescription, this); // Passe a referência para a instância de TodoList
+            newTask.startTimer(); // Inicie o timer
             tasks.add(newTask);
             updateTaskList();
             taskInputField.setText("");
@@ -243,7 +261,6 @@ addActionMap.put("addTask", new AbstractAction() {
         if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
             Task task = tasks.get(selectedIndex);
             task.setDone(true);
-            task.stopTimer();
             updateTaskList();
         }
     }
@@ -276,31 +293,38 @@ addActionMap.put("addTask", new AbstractAction() {
     private void updateTaskList() {
         listModel.clear();
         for (Task task : tasks) {
-            listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : ""));
+            String taskDescription = task.getDescription();
+            if (task.isDone()) {
+                taskDescription += " ";
+            }
+            listModel.addElement(taskDescription);
         }
     }
 
     // Classe interna Task com timer
-    private class Task {
+    public class Task {
         private String description;
         private boolean done;
         private Timer timer;
         private int elapsedTime; // em segundos
+        private TodoList todoList; // Referência para a instância de TodoList
 
-        public Task(String description) {
+        public Task(String description, TodoList todoList) {
             this.description = description;
-            this.done = false;
+            this.done = false; // Por padrão, a tarefa não está concluída
             this.elapsedTime = 0;
+            this.todoList = todoList; // Inicializa a referência
 
             // Inicializa o timer com um ActionListener
-            this.timer = new Timer(1000, new ActionListener() {
+            timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    // Atualize o tempo decorrido na instância de TodoList
+                    todoList.updateTimerLabel(description, elapsedTime);
                     elapsedTime++;
-                    System.out.println(
-                            "Tempo decorrido para a tarefa '" + description + "': " + elapsedTime + " segundos");
                 }
             });
+            timer.start(); // Inicie o timer
         }
 
         public void startTimer() {
@@ -311,10 +335,12 @@ addActionMap.put("addTask", new AbstractAction() {
             timer.stop();
         }
 
-        // ... (outros métodos)
-
         public String getDescription() {
-            return description;
+            if (done) {
+                return description + " (Concluída)";
+            } else {
+                return description;
+            }
         }
 
         public boolean isDone() {
@@ -324,6 +350,11 @@ addActionMap.put("addTask", new AbstractAction() {
         public void setDone(boolean done) {
             this.done = done;
         }
+    }
+
+    public void updateTimerLabel(String description, int elapsedTime) {
+        // Atualize a label timerLabel com a descrição e o tempo decorrido
+        timerLabel.setText("Tempo decorrido para a tarefa '" + description + "': " + elapsedTime + " segundos");
     }
 
     // Classe principal para representar uma tarefa
@@ -362,6 +393,7 @@ addActionMap.put("addTask", new AbstractAction() {
             }
 
         }
+
     }
 
     public void run() {
