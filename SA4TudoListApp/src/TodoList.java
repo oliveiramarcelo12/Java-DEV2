@@ -151,14 +151,20 @@ public class TodoList extends JFrame {
 
         // Adiciona o painel principal à janela
         this.add(mainPanel);
+// Configuração do MouseListener e KeyListener para o botão "Excluir"
+deleteButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            deleteSelectedTask();
+             JOptionPane.showMessageDialog(TodoList.this, "Adicione uma tarefa", "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(TodoList.this, "Adicione uma tarefa", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+});
 
-        // Configuração do MouseListener e KeyListener para o botão "Excluir"
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedTask();
-            }
-        });
         deleteButton.setForeground(Color.WHITE);  // Define a cor do texto como branco
 
 
@@ -178,9 +184,17 @@ public class TodoList extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addTask();
+                try {
+                    addTask();
+                     JOptionPane.showMessageDialog(TodoList.this, "Adicione uma tarefa", "Erro", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    // Trate a exceção ou exiba uma mensagem de erro adequada.
+                     JOptionPane.showMessageDialog(TodoList.this, "Adicione uma tarefa", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+        
         // InputMap: Mapeia eventos de entrada (teclas, etc.) para nomes de ações.
         // ActionMap: Mapeia nomes de ações para objetos de ação reais.
         // Configuração do InputMap e ActionMap para o botão "Adicionar" e a tecla Enter
