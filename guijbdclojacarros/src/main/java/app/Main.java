@@ -1,9 +1,7 @@
 package app;
-
-import connection.ConnectionDAO;
-
+import View.JanelaPrincipal;
 public class Main {
     public static void main(String[] args) {
-    new ConnectionDAO().listarTodos();
+        new JanelaPrincipal().run();
     }
 }
