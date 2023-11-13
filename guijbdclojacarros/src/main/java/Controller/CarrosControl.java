@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Model.Carros;
+import app.Connection.CarrosDAO;
 
 public class CarrosControl {
     // Atributos
