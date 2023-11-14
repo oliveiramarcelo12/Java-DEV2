@@ -65,6 +65,22 @@ return carros; // Retorna a lista de carros recuperados do banco de dados
 //Cadastrar Carro no banco
 public void cadastrar(String marca, String modelo, String ano, String placa, String
 valor) {
+   // Verifica se o ano é numérico
+   try {
+    int anoNumerico = Integer.parseInt(ano);
+    // Restante do código para verificar se é positivo, se necessário
+} catch (NumberFormatException e) {
+    throw new IllegalArgumentException("O ano deve ser numérico.");
+    
+}
+
+// Verifica se o valor é um número válido
+try {
+    double valorNumerico = Double.parseDouble(valor);
+    // Restante do código para verificar se é positivo, se necessário
+} catch (NumberFormatException e) {
+    throw new IllegalArgumentException("O valor deve ser um número válido.");
+}
 PreparedStatement stmt = null;
 // Define a instrução SQL parametrizada para cadastrar na tabela
 String sql = "INSERT INTO carros_lojacarros (marca, modelo, ano, placa, valor) VALUES (?, ?, ?, ?, ?)";
