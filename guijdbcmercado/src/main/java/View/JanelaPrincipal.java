@@ -1,26 +1,33 @@
 package View;
+
+import Controller.GerenciadorEstoque; // Certifique-se de ter a importação correta para GerenciadorEstoque
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+public class JanelaPrincipal extends JFrame {
+    // Criação do tabbedPane para incluir as tabs
+    private JTabbedPane jTPane;
 
-public class JanelaPrincipal extends JFrame{
-// criação do tabbedPane para incluir as tabs
-private JTabbedPane jTPane;
-public JanelaPrincipal() {
-jTPane = new JTabbedPane();
-add(jTPane);
-// criandos as tabs
-// tab1 carros
+    public JanelaPrincipal() {
+        jTPane = new JTabbedPane();
+        add(jTPane);
 
-ClientesPainel tab2 = new ClientesPainel();
+        // Criando as tabs
+        // Tab "Clientes"
+        ClientesPainel tabClientes = new ClientesPainel();
+        jTPane.add("Clientes", tabClientes);
 
-jTPane.add("Clientes", tab2);
+        // Tab "Estoque"
+        GerenciadorEstoque gerenciadorEstoque = new GerenciadorEstoque(); // Crie uma instância válida de GerenciadorEstoque
+        EstoquePainel tabEstoque = new EstoquePainel(gerenciadorEstoque); // Passe o GerenciadorEstoque como argumento
+        jTPane.add("Estoque", tabEstoque);
 
-setBounds(100, 100, 600, 600);
-setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-}
-//métodos para tornar a janela visível
-public void run(){
-this.setVisible(true);
-}
+        setBounds(100, 100, 600, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    // Métodos para tornar a janela visível
+    public void run() {
+        this.setVisible(true);
+    }
 }

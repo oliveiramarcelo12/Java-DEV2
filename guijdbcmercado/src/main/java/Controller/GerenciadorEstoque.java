@@ -1,4 +1,5 @@
 package Controller;
+import java.util.List;
 
 import Model.Estoque;
 import Model.Produto;
@@ -10,12 +11,8 @@ public class GerenciadorEstoque {
         this.estoque = new Estoque();
     }
 
-    public void adicionarProduto(String nome, int quantidade, double preco) {
-        Produto novoProduto = new Produto();
-        novoProduto.setNome(nome);
-        novoProduto.setQuantidade(quantidade);
-        novoProduto.setPreco(preco);
-
+    public void adicionarProduto(String codigoBarra, String nome, int quantidade, double preco) {
+        Produto novoProduto = new Produto(codigoBarra, nome, quantidade, preco);
         estoque.adicionarProduto(novoProduto);
     }
 
