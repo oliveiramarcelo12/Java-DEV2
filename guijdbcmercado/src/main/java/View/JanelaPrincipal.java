@@ -12,14 +12,15 @@ public class JanelaPrincipal extends JFrame {
         jTPane = new JTabbedPane();
         add(jTPane);
 
+
         // Criando as tabs
         // Tab "Clientes"
         ClientesPainel tabClientes = new ClientesPainel();
         jTPane.add("Clientes", tabClientes);
 
         // Tab "Estoque"
-        EstoqueControll gerenciadorEstoque = new EstoqueControll(); // Crie uma instância válida de GerenciadorEstoque
-        EstoquePainel tabEstoque = new EstoquePainel(gerenciadorEstoque); // Passe o GerenciadorEstoque como argumento
+        EstoqueControll gerenciadorEstoque = new EstoqueControll();
+        EstoquePainel tabEstoque = new EstoquePainel(gerenciadorEstoque);
         jTPane.add("Estoque", tabEstoque);
 
         setBounds(100, 100, 600, 600);

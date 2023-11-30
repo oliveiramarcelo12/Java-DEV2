@@ -7,38 +7,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class ProdutoDAO {
     private static final String INSERIR_PRODUTO = "INSERT INTO produtos (codigo_barra, nome, quantidade, preco) VALUES (?, ?, ?, ?)";
+    private static final String LIMPAR_TABELA = "DELETE FROM produtos";
 
-    private Connection connection; // Adicione essa declaração
+    private Connection connection;
 
-    // Construtor para inicializar a conexão
     public ProdutoDAO() {
         this.connection = ConnectionFactory.getConnection();
-        criarTabelaProdutos(); // Chama o método para criar a tabela (se não existir)
+        criarTabelaProdutos();
     }
-    // Método para adicionar um produto
+
     public void adicionarProduto(Produto produto) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERIR_PRODUTO)) {
-
             preparedStatement.setString(1, produto.getCodigoBarra());
             preparedStatement.setString(2, produto.getNome());
             preparedStatement.setInt(3, produto.getQuantidade());
             preparedStatement.setDouble(4, produto.getPreco());
-
-            // Executa a inserção
             preparedStatement.executeUpdate();
             System.out.println("Produto adicionado com sucesso!");
-
         } catch (SQLException e) {
-            // Tratamento de exceção
             System.err.println("Erro ao adicionar produto.");
             e.printStackTrace();
         }
     }
 
-    // Método para criar a tabela de produtos (se não existir)
     private void criarTabelaProdutos() {
         String sql = "CREATE TABLE IF NOT EXISTS produtos (" +
                 "codigo_barra VARCHAR(20) PRIMARY KEY," +
@@ -48,23 +43,36 @@ public class ProdutoDAO {
                 ")";
 
         try (Statement stmt = connection.createStatement()) {
-            // Executa a criação da tabela
             stmt.execute(sql);
             System.out.println("Tabela 'produtos' criada com sucesso.");
-
         } catch (SQLException e) {
-            // Tratamento de exceção
             System.err.println("Erro ao criar tabela 'produtos'.");
             e.printStackTrace();
         }
     }
 
-    // Outros métodos relacionados a produtos, se necessário
+    public void atualizarTabelaBancoDados(List<Produto> produtos) {
+        try {
+            // Limpar a tabela existente
+            limparTabela();
+
+            // Inserir os novos registros
+            for (Produto produto : produtos) {
+                adicionarProduto(produto);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar tabela no banco de dados.");
+            e.printStackTrace();
+        }
+    }
+
+    private void limparTabela() throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(LIMPAR_TABELA)) {
+            preparedStatement.executeUpdate();
+        }
+    }
 
     public void fecharConexao() {
         ConnectionFactory.closeConnection(this.connection);
     }
-
-    // ...
-
 }

@@ -61,18 +61,33 @@ public class EstoquePainel extends JFrame {
         JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // Método para adicionar um novo produto
     private void adicionarProduto() {
         // Solicitação de informações ao usuário
         String codigoBarra = JOptionPane.showInputDialog(this, "Digite o código de barras do produto:");
         String nome = JOptionPane.showInputDialog(this, "Digite o nome do produto:");
-        int quantidade = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite a quantidade do produto:"));
-        double preco = Double.parseDouble(JOptionPane.showInputDialog(this, "Digite o preço do produto:"));
-
-        // Chamada do método do controlador para adicionar o produto
-        gerenciadorEstoque.adicionarProduto(codigoBarra, nome, quantidade, preco);
-        
-        // Exibição de mensagem de sucesso em uma caixa de diálogo
-        JOptionPane.showMessageDialog(this, "Produto adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        String quantidadeStr = JOptionPane.showInputDialog(this, "Digite a quantidade do produto:");
+        String precoStr = JOptionPane.showInputDialog(this, "Digite o preço do produto:");
+    
+        // Verificação de valores não nulos ou vazios
+        if (codigoBarra != null && nome != null && !quantidadeStr.isEmpty() && !precoStr.isEmpty()) {
+            try {
+                // Conversão para números
+                int quantidade = Integer.parseInt(quantidadeStr);
+                double preco = Double.parseDouble(precoStr);
+    
+                // Chamada do método do controlador para adicionar o produto
+                gerenciadorEstoque.adicionarProduto(codigoBarra, nome, quantidade, preco);
+    
+                // Exibição de mensagem de sucesso em uma caixa de diálogo
+                JOptionPane.showMessageDialog(this, "Produto adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException e) {
+                // Tratamento de erro se a conversão falhar
+                JOptionPane.showMessageDialog(this, "Erro ao converter valores para números.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Usuário cancelou a entrada ou forneceu valores nulos/vazios
+            JOptionPane.showMessageDialog(this, "Entrada cancelada ou valores inválidos.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
     }
+    
 }
