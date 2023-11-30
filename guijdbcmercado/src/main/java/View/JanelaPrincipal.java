@@ -1,6 +1,6 @@
 package View;
 
-import Controller.GerenciadorEstoque; // Certifique-se de ter a importação correta para GerenciadorEstoque
+import Controller.EstoqueControll; // Certifique-se de ter a importação correta para GerenciadorEstoque
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
@@ -18,7 +18,7 @@ public class JanelaPrincipal extends JFrame {
         jTPane.add("Clientes", tabClientes);
 
         // Tab "Estoque"
-        GerenciadorEstoque gerenciadorEstoque = new GerenciadorEstoque(); // Crie uma instância válida de GerenciadorEstoque
+        EstoqueControll gerenciadorEstoque = new EstoqueControll(); // Crie uma instância válida de GerenciadorEstoque
         EstoquePainel tabEstoque = new EstoquePainel(gerenciadorEstoque); // Passe o GerenciadorEstoque como argumento
         jTPane.add("Estoque", tabEstoque);
 
