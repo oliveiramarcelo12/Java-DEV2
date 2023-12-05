@@ -1,5 +1,6 @@
 package Controller;
 
+import java.sql.SQLException;
 import java.util.List;
 import Model.Estoque;
 import Model.Produto;
@@ -24,9 +25,14 @@ public class EstoqueControll {
      */
     public void adicionarProduto(String codigoBarra, String nome, int quantidade, double preco) {
         try {
+            // Cria um novo produto
             Produto novoProduto = new Produto(codigoBarra, nome, quantidade, preco);
+
+            // Adiciona o produto ao estoque
             estoque.adicionarProduto(novoProduto);
             System.out.println("Produto adicionado com sucesso!");
+
+            // Atualiza a tabela do banco de dados
             atualizarTabelaBancoDados();
         } catch (IllegalArgumentException e) {
             System.err.println("Erro ao adicionar produto: " + e.getMessage());
@@ -40,8 +46,11 @@ public class EstoqueControll {
      */
     public void removerProduto(Produto produto) {
         try {
+            // Remove o produto do estoque
             estoque.removerProduto(produto);
             System.out.println("Produto removido com sucesso!");
+
+            // Atualiza a tabela do banco de dados
             atualizarTabelaBancoDados();
         } catch (IllegalArgumentException e) {
             System.err.println("Erro ao remover produto: " + e.getMessage());
@@ -55,6 +64,7 @@ public class EstoqueControll {
      */
     public List<Produto> listarProdutos() {
         try {
+            // Lista os produtos do estoque
             return estoque.listarProdutos();
         } catch (Exception e) {
             System.err.println("Erro ao listar produtos: " + e.getMessage());
@@ -66,7 +76,10 @@ public class EstoqueControll {
      * Atualiza a tabela do banco de dados com os produtos do estoque.
      */
     private void atualizarTabelaBancoDados() {
+        // Obtém a lista de produtos do estoque
         List<Produto> produtos = estoque.listarProdutos();
+
+        // Atualiza a tabela no banco de dados
         produtoDAO.atualizarTabelaBancoDados(produtos);
     }
 }

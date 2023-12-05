@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class EstoquePainel extends JFrame {
     private EstoqueControll gerenciadorEstoque; // Instância do controlador de estoque
@@ -20,6 +22,15 @@ public class EstoquePainel extends JFrame {
         listarProdutosButton.addActionListener(new ActionListener() {
             // Ação ao clicar no botão
             public void actionPerformed(ActionEvent e) {
+                listarProdutos();
+            }
+        });
+
+        // Adiciona um ouvinte de janela para atualizar a lista de produtos ao fechar a janela
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Atualize a lista de produtos ao fechar a janela
                 listarProdutos();
             }
         });
@@ -47,6 +58,11 @@ public class EstoquePainel extends JFrame {
         setVisible(true);
     }
 
+    // Método para configurar ou atualizar o controlador de estoque
+    public void setGerenciadorEstoque(EstoqueControll gerenciadorEstoque) {
+        this.gerenciadorEstoque = gerenciadorEstoque;
+    }
+
     // Método para listar produtos
     private void listarProdutos() {
         List<Produto> produtos = gerenciadorEstoque.listarProdutos();
@@ -67,17 +83,17 @@ public class EstoquePainel extends JFrame {
         String nome = JOptionPane.showInputDialog(this, "Digite o nome do produto:");
         String quantidadeStr = JOptionPane.showInputDialog(this, "Digite a quantidade do produto:");
         String precoStr = JOptionPane.showInputDialog(this, "Digite o preço do produto:");
-    
+
         // Verificação de valores não nulos ou vazios
         if (codigoBarra != null && nome != null && !quantidadeStr.isEmpty() && !precoStr.isEmpty()) {
             try {
                 // Conversão para números
                 int quantidade = Integer.parseInt(quantidadeStr);
                 double preco = Double.parseDouble(precoStr);
-    
+
                 // Chamada do método do controlador para adicionar o produto
                 gerenciadorEstoque.adicionarProduto(codigoBarra, nome, quantidade, preco);
-    
+
                 // Exibição de mensagem de sucesso em uma caixa de diálogo
                 JOptionPane.showMessageDialog(this, "Produto adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
@@ -89,5 +105,5 @@ public class EstoquePainel extends JFrame {
             JOptionPane.showMessageDialog(this, "Entrada cancelada ou valores inválidos.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
 }
