@@ -6,64 +6,64 @@ import Model.Produto;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
-public class EstoquePainel extends JPanel { // Modificado para estender JPanel
-    private EstoqueControll gerenciadorEstoque; // Instância do controlador de estoque
+public class EstoquePainel extends JFrame {
+    private EstoqueControll gerenciadorEstoque;
 
-    // Construtor da classe EstoquePainel
+
     public EstoquePainel(EstoqueControll gerenciadorEstoque) {
         this.gerenciadorEstoque = gerenciadorEstoque;
 
-        // Botão para listar produtos
         JButton listarProdutosButton = new JButton("Listar Produtos");
         listarProdutosButton.addActionListener(new ActionListener() {
-            // Ação ao clicar no botão
             public void actionPerformed(ActionEvent e) {
                 listarProdutos();
             }
         });
 
-        // Adiciona um ouvinte de janela para atualizar a lista de produtos ao fechar a janela
-        // Aqui pode ser mantido, mas geralmente, isso é tratado pelo controlador de eventos da janela principal
-        /*addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                // Atualize a lista de produtos ao fechar a janela
                 listarProdutos();
             }
-        });*/
+        });
 
-        // Botão para adicionar produto
         JButton adicionarProdutoButton = new JButton("Adicionar Produto");
         adicionarProdutoButton.addActionListener(new ActionListener() {
-            // Ação ao clicar no botão
             public void actionPerformed(ActionEvent e) {
                 adicionarProduto();
             }
         });
 
-        // Painel contendo os botões
         JPanel panel = new JPanel();
         panel.add(listarProdutosButton);
         panel.add(adicionarProdutoButton);
 
-        // Adiciona o painel ao EstoquePainel
         add(panel);
+        setTitle("Gerenciamento de Estoque");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
-    // Método para listar produtos
+    public void setGerenciadorEstoque(EstoqueControll gerenciadorEstoque) {
+        this.gerenciadorEstoque = gerenciadorEstoque;
+    }
+
     private void listarProdutos() {
-        List<Produto> produtos = gerenciadorEstoque.listarProdutos();
+        List<Produto> produtos = gerenciadorEstoque.listarProdutosDoBanco();
         StringBuilder mensagem = new StringBuilder("Produtos em Estoque:\n");
 
-        // Construção da mensagem
         for (Produto produto : produtos) {
             mensagem.append(produto.getNome()).append(" - Quantidade: ").append(produto.getQuantidade()).append("\n");
         }
 
-        // Exibição da mensagem em uma caixa de diálogo
-        JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void adicionarProduto() {
@@ -84,14 +84,17 @@ public class EstoquePainel extends JPanel { // Modificado para estender JPanel
                 gerenciadorEstoque.adicionarProduto(codigoBarra, nome, quantidade, preco);
 
                 // Exibição de mensagem de sucesso em uma caixa de diálogo
-                JOptionPane.showMessageDialog(this, "Produto adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Produto adicionado com sucesso!", "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 // Tratamento de erro se a conversão falhar
-                JOptionPane.showMessageDialog(this, "Erro ao converter valores para números.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Erro ao converter valores para números.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } else {
             // Usuário cancelou a entrada ou forneceu valores nulos/vazios
-            JOptionPane.showMessageDialog(this, "Entrada cancelada ou valores inválidos.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Entrada cancelada ou valores inválidos.", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 }

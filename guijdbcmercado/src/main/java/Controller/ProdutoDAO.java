@@ -47,9 +47,13 @@ public class ProdutoDAO {
     }
 
     public List<Produto> listarTodos() {
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produtos");
-             ResultSet rs = stmt.executeQuery()) {
-            List<Produto> produtos = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Produto> produtos = new ArrayList<>();
+    
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM produtos");
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 Produto produto = new Produto(
                         rs.getString("codigo_barra"),
@@ -59,12 +63,14 @@ public class ProdutoDAO {
                 );
                 produtos.add(produto);
             }
-            return produtos;
         } catch (SQLException ex) {
-            System.err.println("Erro ao listar produtos: " + ex.getMessage());
-            return Collections.emptyList(); // Ou lança uma exceção apropriada
+            System.out.println(ex);
+        } finally {
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
+        return produtos;
     }
+    
 
     private boolean registroExiste(String codigoBarra) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT 1 FROM produtos WHERE codigo_barra = ?")) {

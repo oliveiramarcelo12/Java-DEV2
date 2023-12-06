@@ -62,15 +62,15 @@ public class EstoqueControll {
      *
      * @return Lista de produtos no estoque.
      */
-    public List<Produto> listarProdutos() {
+    public List<Produto> listarProdutosDoBanco() {
         try {
-            // Lista os produtos do estoque
-            return estoque.listarProdutos();
+            return produtoDAO.listarTodos();
         } catch (Exception e) {
-            System.err.println("Erro ao listar produtos: " + e.getMessage());
-            return null; // Ou lançar uma exceção apropriada para indicar o erro para a camada superior
+            System.err.println("Erro ao listar produtos do banco de dados: " + e.getMessage());
+            return null;
         }
     }
+    
 
     /**
      * Atualiza a tabela do banco de dados com os produtos do estoque.
