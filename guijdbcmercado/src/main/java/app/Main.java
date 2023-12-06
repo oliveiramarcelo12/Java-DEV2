@@ -4,13 +4,19 @@ import Controller.EstoqueControll;
 import View.EstoquePainel;
 import View.JanelaPrincipal;
 
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
-        new JanelaPrincipal().run();
-        EstoqueControll gerenciadorEstoque = new EstoqueControll();
+        SwingUtilities.invokeLater(() -> {
+            JanelaPrincipal janelaPrincipal = new JanelaPrincipal();
+            janelaPrincipal.run();
 
-        // Crie uma instância de EstoquePainel e configure o controlador de estoque
-        EstoquePainel janelaEstoque = new EstoquePainel(gerenciadorEstoque);
-        janelaEstoque.setGerenciadorEstoque(gerenciadorEstoque);
+            EstoqueControll gerenciadorEstoque = new EstoqueControll();
+            EstoquePainel janelaEstoque = new EstoquePainel(gerenciadorEstoque);
+
+            // Adicione o EstoquePainel à guia "Estoque" na JanelaPrincipal
+            janelaPrincipal.adicionarTabEstoque(janelaEstoque);
+        });
     }
 }

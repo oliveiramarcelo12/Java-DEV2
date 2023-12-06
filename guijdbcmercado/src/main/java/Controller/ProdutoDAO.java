@@ -47,13 +47,9 @@ public class ProdutoDAO {
     }
 
     public List<Produto> listarTodos() {
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Produto> produtos = new ArrayList<>();
-
-        try {
-            stmt = connection.prepareStatement("SELECT * FROM produtos");
-            rs = stmt.executeQuery();
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produtos");
+             ResultSet rs = stmt.executeQuery()) {
+            List<Produto> produtos = new ArrayList<>();
             while (rs.next()) {
                 Produto produto = new Produto(
                         rs.getString("codigo_barra"),
@@ -63,12 +59,20 @@ public class ProdutoDAO {
                 );
                 produtos.add(produto);
             }
+            return produtos;
         } catch (SQLException ex) {
-            System.out.println(ex);
-        } finally {
-            ConnectionFactory.closeConnection(connection, stmt, rs);
+            System.err.println("Erro ao listar produtos: " + ex.getMessage());
+            return Collections.emptyList(); // Ou lança uma exceção apropriada
         }
-        return produtos;
+    }
+
+    private boolean registroExiste(String codigoBarra) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT 1 FROM produtos WHERE codigo_barra = ?")) {
+            preparedStatement.setString(1, codigoBarra);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
     }
 
     public void atualizarTabelaBancoDados(List<Produto> produtos) {
@@ -97,15 +101,6 @@ public class ProdutoDAO {
             preparedStatement.setString(4, produto.getCodigoBarra());
             preparedStatement.executeUpdate();
             System.out.println("Produto atualizado com sucesso!");
-        }
-    }
-
-    private boolean registroExiste(String codigoBarra) throws SQLException {
-        // Verifica se um registro com o código de barras especificado existe
-        try (PreparedStatement preparedStatement = connection.prepareStatement(VERIFICAR_REGISTRO)) {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet.next() && resultSet.getInt(1) > 0;
-            }
         }
     }
     

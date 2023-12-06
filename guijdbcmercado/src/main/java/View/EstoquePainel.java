@@ -7,10 +7,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-public class EstoquePainel extends JFrame {
+public class EstoquePainel extends JPanel { // Modificado para estender JPanel
     private EstoqueControll gerenciadorEstoque; // Instância do controlador de estoque
 
     // Construtor da classe EstoquePainel
@@ -27,13 +25,14 @@ public class EstoquePainel extends JFrame {
         });
 
         // Adiciona um ouvinte de janela para atualizar a lista de produtos ao fechar a janela
-        addWindowListener(new WindowAdapter() {
+        // Aqui pode ser mantido, mas geralmente, isso é tratado pelo controlador de eventos da janela principal
+        /*addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 // Atualize a lista de produtos ao fechar a janela
                 listarProdutos();
             }
-        });
+        });*/
 
         // Botão para adicionar produto
         JButton adicionarProdutoButton = new JButton("Adicionar Produto");
@@ -49,18 +48,8 @@ public class EstoquePainel extends JFrame {
         panel.add(listarProdutosButton);
         panel.add(adicionarProdutoButton);
 
-        // Configurações da janela
+        // Adiciona o painel ao EstoquePainel
         add(panel);
-        setTitle("Gerenciamento de Estoque");
-        setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
-
-    // Método para configurar ou atualizar o controlador de estoque
-    public void setGerenciadorEstoque(EstoqueControll gerenciadorEstoque) {
-        this.gerenciadorEstoque = gerenciadorEstoque;
     }
 
     // Método para listar produtos
@@ -105,5 +94,4 @@ public class EstoquePainel extends JFrame {
             JOptionPane.showMessageDialog(this, "Entrada cancelada ou valores inválidos.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
-
 }
