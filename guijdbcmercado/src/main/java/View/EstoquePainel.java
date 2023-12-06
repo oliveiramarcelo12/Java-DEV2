@@ -10,9 +10,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-public class EstoquePainel extends JFrame {
+public class EstoquePainel extends JPanel {
     private EstoqueControll gerenciadorEstoque;
-
 
     public EstoquePainel(EstoqueControll gerenciadorEstoque) {
         this.gerenciadorEstoque = gerenciadorEstoque;
@@ -24,13 +23,6 @@ public class EstoquePainel extends JFrame {
             }
         });
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                listarProdutos();
-            }
-        });
-
         JButton adicionarProdutoButton = new JButton("Adicionar Produto");
         adicionarProdutoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -38,16 +30,8 @@ public class EstoquePainel extends JFrame {
             }
         });
 
-        JPanel panel = new JPanel();
-        panel.add(listarProdutosButton);
-        panel.add(adicionarProdutoButton);
-
-        add(panel);
-        setTitle("Gerenciamento de Estoque");
-        setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        add(listarProdutosButton);
+        add(adicionarProdutoButton);
     }
 
     public void setGerenciadorEstoque(EstoqueControll gerenciadorEstoque) {
@@ -62,8 +46,7 @@ public class EstoquePainel extends JFrame {
             mensagem.append(produto.getNome()).append(" - Quantidade: ").append(produto.getQuantidade()).append("\n");
         }
 
-        JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque",
-                JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, mensagem.toString(), "Produtos em Estoque", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void adicionarProduto() {

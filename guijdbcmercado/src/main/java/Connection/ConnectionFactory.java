@@ -16,6 +16,7 @@ public class ConnectionFactory {
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(url, usuario, senha);
+            
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao obter conexão com o banco de dados.", e);
         }

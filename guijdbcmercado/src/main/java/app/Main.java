@@ -15,6 +15,8 @@ public class Main {
             EstoqueControll gerenciadorEstoque = new EstoqueControll();
             EstoquePainel janelaEstoque = new EstoquePainel(gerenciadorEstoque);
 
+            // Adicione o EstoquePainel à guia "Estoque" na JanelaPrincipal
+            janelaPrincipal.adicionarTabEstoque(janelaEstoque);
         });
     }
 }
