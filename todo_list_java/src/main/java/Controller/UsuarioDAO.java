@@ -34,27 +34,7 @@ public class UsuarioDAO {
         }
     }
 
-    public List<Usuario> listarTodos() {
-        List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuarios";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                Usuario usuario = new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha")
-                );
-                usuarios.add(usuario);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar os usuários: " + e.getMessage(), e);
-        } finally {
-            ConnectionFactory.closeConnection(connection);
-        }
-        return usuarios;
-    }
+   
 
     public void cadastrar(Usuario usuario) {
         String sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";

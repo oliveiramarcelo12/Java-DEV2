@@ -10,6 +10,7 @@ import java.util.List;
 public class TarefasControl {
     private TarefasPainel view; // Referência à interface de usuário
     private List<String> tarefas; // Lista de tarefas
+    
 
     public TarefasControl(TarefasPainel view) {
         this.view = view;
@@ -21,13 +22,14 @@ public class TarefasControl {
         this.view.addExcluirListener(new ExcluirListener());
     }
 
+    
+
     // Ouvinte para o botão "Adicionar"
     class AdicionarListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String descricao = view.obterDescricaoTarefa();
             if (!descricao.isEmpty()) {
                 adicionarTarefa(descricao);
-                view.limparCampoTarefa();
                 view.atualizarListaTarefas(tarefas);
             }
         }
@@ -68,5 +70,10 @@ public class TarefasControl {
     // Método para excluir uma tarefa
     public void excluirTarefa(int index) {
         tarefas.remove(index);
+    }
+
+    // Método para retornar a lista de tarefas
+    public List<String> getTarefas() {
+        return tarefas;
     }
 }
